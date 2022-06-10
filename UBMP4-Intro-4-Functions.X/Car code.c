@@ -9,8 +9,12 @@
 // TODO Set linker code offset to '800' under "Additional options" pull-down.
 
 // Button constant definitions
-
-
+#define EnableA H1OUT
+#define EnableB H6OUT
+#define Aforward H3OUT
+#define Abackward H2OUT
+#define Bforward H4OUT
+#define Bbackward H5OUT
 // Program variable definitions
 
 
@@ -21,27 +25,66 @@ int main(void)
 	TRISC = 0b00000000;
     while(1)
 	{
-        if(SW2 == 0 && SW3 == 1) //forwards
+       if(SW2 == 0 && SW3 == 1 && SW4 == 1 && SW5 == 1) //backwards
         {
-            H1OUT = 1;
-            LED3 = 1;
+            EnableA = 1;
+            EnableB = 1;
+            Abackward = 1;
+            Bbackward = 1;
         }
         else
         {
-            H1OUT = 0;
-            LED3 = 0;
+            EnableA = 0;
+            EnableB = 0;
+            Abackward = 0;
+            Bbackward = 0;
+
         }
 
-        if(SW3 == 0 && SW2 == 1) //backwards
+        // if(SW3 == 0 && SW2 == 1 && SW4 == 1 && SW5 == 1) //forwards
+        // {
+        //     EnableA = 1;
+        //     EnableB = 1;
+        //     Aforward = 1;
+        //     Bforward = 1;
+ 
+        // }
+        // else
+        // {
+        //     EnableA = 0;
+        //     EnableB = 0;
+        //     Aforward = 0;
+        //     Bforward = 0;
+        // }
+        if(SW4 == 0 && SW2 == 1 && SW3 == 1 && SW5 == 1) //Turn right
         {
-            H2OUT = 1;
-            LED4 = 1;
+            EnableA = 1;
+            EnableB = 1;
+            Aforward = 1;
+            Bbackward = 1;
         }
         else
         {
-            H2OUT = 0;
-            LED4 = 0;
+            EnableA = 0;
+            EnableB = 0;
+            Aforward = 0;
+            Bbackward = 0;
         }
+        if(SW5 == 0 && SW2 == 1 && SW3 == 1 && SW4 == 1) //Turn left
+        {
+            EnableA = 1;
+            EnableB = 1;
+            Bforward = 1;
+            Abackward = 1;
+        }
+        else
+        {
+            EnableA = 0;
+            EnableB = 0;
+            Bforward = 0;
+            Abackward = 0;
+        }
+        //RESET
         if(SW1 == 0)
         {
             RESET();
