@@ -15,6 +15,10 @@
 #define Abackward H2OUT
 #define Bforward H4OUT
 #define Bbackward H5OUT
+#define forward SW3
+#define backward SW2
+#define left SW4
+#define right SW5
 // Program variable definitions
 
 
@@ -25,52 +29,29 @@ int main(void)
 	TRISC = 0b00000000;
     while(1)
 	{
-       if(SW2 == 0 && SW3 == 1 && SW4 == 1 && SW5 == 1) //backwards
+        if(SW2 == 0 && SW3 == 1 && SW4 == 1 && SW5 == 1) //backwards
         {
             EnableA = 1;
             EnableB = 1;
             Abackward = 1;
             Bbackward = 1;
         }
-        else
+        else if(SW3 == 0 && SW2 == 1 && SW4 == 1 && SW5 == 1) //forwards
         {
-            EnableA = 0;
-            EnableB = 0;
-            Abackward = 0;
-            Bbackward = 0;
-
-        }
-
-        // if(SW3 == 0 && SW2 == 1 && SW4 == 1 && SW5 == 1) //forwards
-        // {
-        //     EnableA = 1;
-        //     EnableB = 1;
-        //     Aforward = 1;
-        //     Bforward = 1;
+            EnableA = 1;
+            EnableB = 1;
+            Aforward = 1;
+            Bforward = 1;
  
-        // }
-        // else
-        // {
-        //     EnableA = 0;
-        //     EnableB = 0;
-        //     Aforward = 0;
-        //     Bforward = 0;
-        // }
-        if(SW4 == 0 && SW2 == 1 && SW3 == 1 && SW5 == 1) //Turn right
+        }
+        else if(SW4 == 0 && SW2 == 1 && SW3 == 1 && SW5 == 1) //Turn right
         {
             EnableA = 1;
             EnableB = 1;
             Aforward = 1;
             Bbackward = 1;
         }
-        else
-        {
-            EnableA = 0;
-            EnableB = 0;
-            Aforward = 0;
-            Bbackward = 0;
-        }
-        if(SW5 == 0 && SW2 == 1 && SW3 == 1 && SW4 == 1) //Turn left
+        else if(SW5 == 0 && SW2 == 1 && SW3 == 1 && SW4 == 1) //Turn left
         {
             EnableA = 1;
             EnableB = 1;
@@ -81,8 +62,10 @@ int main(void)
         {
             EnableA = 0;
             EnableB = 0;
-            Bforward = 0;
             Abackward = 0;
+            Bbackward = 0;
+            Aforward = 0;
+            Bforward = 0;
         }
         //RESET
         if(SW1 == 0)
