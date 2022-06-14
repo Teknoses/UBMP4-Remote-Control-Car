@@ -92,3 +92,21 @@ unsigned char ADC_read_channel(unsigned char channel)
     ADON = 0;                   // Turn the A-D converter off
     return (ADRESH);            // Return the MSB (upper 8-bits) of the result
 }
+// Configures bluetooth module
+void bluetooth_config(void)
+{
+    SPBRGH = 4;
+    SPBRGL = 225;
+    BRGH = 1;
+    BRG16 = 1;
+    SYNC = 0;
+    SPE = 1;
+    TX9 = 0;
+    RX9 = 0;
+    GIE = 0;
+    PEIE = 0;
+    TXIE = 0;
+    RCIE = 0;
+    TXEN = 1;
+    CREN = 1;
+}
