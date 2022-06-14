@@ -1,15 +1,3 @@
-/*==============================================================================
- Project: Intro-4-Functions
- Date:    May 16, 2021
- 
- This program demonstrates the use of functions, and variable passing between
- the main and function code.
- 
- Additional program analysis and programming activities examine function code
- location, function prototypes, and reinforce the concepts of global and local
- variables.
-==============================================================================*/
-
 #include    "xc.h"              // Microchip XC8 compiler include file
 #include    "stdint.h"          // Include integer definitions
 #include    "stdbool.h"         // Include Boolean (true/false) definitions
@@ -20,8 +8,17 @@
 // TODO Set linker code offset to '800' under "Additional options" pull-down.
 
 // Button constant definitions
-
-
+#define EnableA H1OUT
+#define EnableB H6OUT
+#define Aforward H3OUT
+#define Abackward H2OUT
+#define Bforward H4OUT
+#define Bbackward H5OUT
+#define forward SW3
+#define backward SW2
+#define left SW4
+#define right SW5
+unsigned char Speed = 255;
 // Program variable definitions
 
 
@@ -29,34 +26,91 @@ int main(void)
 {
     OSC_config();               // Configure internal oscillator for 48 MHz
     UBMP4_config();             // Configure on-board UBMP4 I/O devices
-	TRISC = 0b00001001;
+	TRISC = 0b00000000;
     while(1)
 	{
-        if(SW2 == 0 && SW3 == 1) //backwards
+        // if(SW2 == 0 && SW3 == 1 && SW4 == 1 && SW5 == 1) //backwards
+        // {
+        //     EnableA = 1;
+        //     EnableB = 1;
+        //     Abackward = 1;
+        //     Bbackward = 1;
+        // }
+        // else if(SW3 == 0 && SW2 == 1 && SW4 == 1 && SW5 == 1) //forwards
+        // {
+        //     EnableA = 1;
+        //     EnableB = 1;
+        //     Aforward = 1;
+        //     Bforward = 1;
+        // }
+        // else if(SW4 == 0 && SW2 == 1 && SW3 == 1 && SW5 == 1) //Turn right
+        // {
+        //     EnableA = 1;
+        //     EnableB = 1;
+        //     Aforward = 1;
+        //     Bbackward = 1;
+        // }
+        // else if(SW5 == 0 && SW2 == 1 && SW3 == 1 && SW4 == 1) //Turn left
+        // {
+        //     EnableA = 1;
+        //     EnableB = 1;
+        //     Bforward = 1;
+        //     Abackward = 1;
+        // }
+        // else
+        // {
+        //     EnableA = 0;
+        //     EnableB = 0;
+        //     Abackward = 0;
+        //     Bbackward = 0;
+        //     Aforward = 0;
+        //     Bforward = 0;
+        // }
+
+        //Acceleration Idea
+        
+            EnableA = 1;
+            EnableB = 1;
+
+         if(SW5 == 0)       //Decrease Speed
         {
-            H2OUT = 1;
-            LED3 = 1;
-        }
-        else
-        {
-            H2OUT = 0;
-            LED3 = 0;
+            if(Speed > 0)
+            {
+                Speed -= 1;
+            }
         }
 
-        if(SW3 == 0 && SW2 == 1) //forwards
+        if(SW4 == 0)        // Increase Speed
         {
-            H3OUT = 1;
-            LED4 = 1;
+            if(Speed < 255)
+            {
+                Speed += 1;
+            }
         }
-        else
+
+     for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
         {
-            H3OUT = 0;
-            LED4 = 0;
+            if(Speed == PWMperiod)
+            {
+            Aforward = 1;
+            Bforward = 1;
+            }
+            __delay_us(20);
         }
+            Aforward = 0;
+            Bforward = 0;
+  
+
+
+
+
+
+
+
+        //RESET
         if(SW1 == 0)
         {
             RESET();
         }
     }
 }
-
