@@ -36,9 +36,9 @@ void UBMP4_config(void)
     WPUA = 0b00001000;          // Enable weak pull-up on SW1 input only
 
     LATB = 0b00000000;          // Clear Port B latches before configuring PORTB
-    TRISB = 0b11110000;         // Enable pushbutton pins as inputs (SW2-SW5)
+    TRISB = 0b01110000;         // Enable pushbutton pins as inputs (SW2-SW5)
     ANSELB = 0b00000000;        // Make all Port B pins digital
-    WPUB = 0b11110000;          // Enable weak pull-ups on pushbutton inputs
+    WPUB = 0b01010000;          // Enable weak pull-ups on pushbutton inputs
 
     LATC = 0b00000000;          // Clear Port C latches before configuring PORTC
     TRISC = 0b00001111;         // Set LED pins as outputs, H1-H4 pins as inputs
@@ -92,15 +92,15 @@ unsigned char ADC_read_channel(unsigned char channel)
     ADON = 0;                   // Turn the A-D converter off
     return (ADRESH);            // Return the MSB (upper 8-bits) of the result
 }
-// Configures bluetooth module
-void bluetooth_config(void)
+
+void bluetooth_config(void) // Configures bluetooth module
 {
     SPBRGH = 4;
     SPBRGL = 225;
     BRGH = 1;
     BRG16 = 1;
     SYNC = 0;
-    SPE = 1;
+    SPEN = 1;
     TX9 = 0;
     RX9 = 0;
     GIE = 0;
@@ -109,4 +109,22 @@ void bluetooth_config(void)
     RCIE = 0;
     TXEN = 1;
     CREN = 1;
+}
+char bluetooth_getChar(void)
+{
+    if(OERR)
+    {
+        CREN = 0;
+        CREN = 1;
+    }
+
+    if(RCIF == 1)
+    {
+        while(!RCIF);
+        return RCREG;
+    }
+    else
+    {
+        return 0;
+    }
 }

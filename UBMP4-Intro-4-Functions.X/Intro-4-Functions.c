@@ -26,9 +26,10 @@ int main(void)
 {
     OSC_config();               // Configure internal oscillator for 48 MHz
     UBMP4_config();             // Configure on-board UBMP4 I/O devices
+    bluetooth_config();
 	TRISC = 0b00000000;
     while(1)
-	{
+	{ 
         // if(SW2 == 0 && SW3 == 1 && SW4 == 1 && SW5 == 1) //backwards
         // {
         //     EnableA = 1;
@@ -67,38 +68,38 @@ int main(void)
         //     Bforward = 0;
         // }
 
-        //Acceleration Idea
+    //     //Acceleration Idea
         
-            EnableA = 1;
-            EnableB = 1;
+    //         EnableA = 1;
+    //         EnableB = 1;
 
-         if(SW5 == 0)       //Decrease Speed
-        {
-            if(Speed > 0)
-            {
-                Speed -= 1;
-            }
-        }
+    //      if(SW5 == 0)       //Decrease Speed
+    //     {
+    //         if(Speed > 0)
+    //         {
+    //             Speed -= 1;
+    //         }
+    //     }
 
-        if(SW4 == 0)        // Increase Speed
-        {
-            if(Speed < 255)
-            {
-                Speed += 1;
-            }
-        }
+    //     if(SW4 == 0)        // Increase Speed
+    //     {
+    //         if(Speed < 255)
+    //         {
+    //             Speed += 1;
+    //         }
+    //     }
 
-     for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
-        {
-            if(Speed == PWMperiod)
-            {
-            Aforward = 1;
-            Bforward = 1;
-            }
-            __delay_us(20);
-        }
-            Aforward = 0;
-            Bforward = 0;
+    //  for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
+    //     {
+    //         if(Speed == PWMperiod)
+    //         {
+    //         Aforward = 1;
+    //         Bforward = 1;
+    //         }
+    //         __delay_us(20);
+    //     }
+    //         Aforward = 0;
+    //         Bforward = 0;
   
 
 

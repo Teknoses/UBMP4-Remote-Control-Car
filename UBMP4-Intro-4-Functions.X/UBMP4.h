@@ -149,3 +149,5 @@ unsigned char ADC_read_channel(unsigned char);
 
 // TODO - Add additional function prototypes for new functions in UBMP4.c here.
 
+void bluetooth_config(void);
+char bluetooth_getChar(void);
